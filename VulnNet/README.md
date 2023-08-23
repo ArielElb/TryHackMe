@@ -39,3 +39,7 @@ hplip:x:111:7:HPLIP system user,,,:/var/run/hplip:/bin/false
 serv-manage:x:1000:1000:serv-manage,,,:/home/serv-manage:/bin/bash
 www:x:1001:1001:,,,:/home/www:/bin/bash
 
+
+#pivot to other user!
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/8427177f-b247-4d3f-8104-3a6558f81887)
+
