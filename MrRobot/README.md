@@ -1,0 +1,14 @@
+
+
+Scanning:
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/79f6a76a-4268-479c-80ba-7e918c13eb85)
+
+
+Enumerating:
+
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/860cf4c1-6cd2-4c62-bfa3-9035c982e181)
+
+
+
+Getting login cred:
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/1c0cc071-513e-43a8-80f8-c3c4add3653f)
