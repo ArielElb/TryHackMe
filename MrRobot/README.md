@@ -12,3 +12,9 @@ Enumerating:
 
 Getting login cred:
 ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/1c0cc071-513e-43a8-80f8-c3c4add3653f)
+
+getting password using wpscan :
+
+- wpscan --url 10.10.166.45 --passwords /home/bobkali/Desktop/TryHackMe/CTFS/mrRobot/wordlist.dic --usernames Elliot
+
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/287b0a71-3e0d-4510-9b91-a008f18ed2df)
