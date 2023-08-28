@@ -18,3 +18,7 @@ getting password using wpscan :
 - wpscan --url 10.10.166.45 --passwords /home/bobkali/Desktop/TryHackMe/CTFS/mrRobot/wordlist.dic --usernames Elliot
 
 ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/287b0a71-3e0d-4510-9b91-a008f18ed2df)
+
+cracking the hashed password(md5) using hashcat :
+
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/da7a75af-ef1d-4552-aba9-67b0ffff09b0)
