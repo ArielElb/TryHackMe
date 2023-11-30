@@ -6,7 +6,7 @@
 
   
 
-![](https://t9003275564.p.clickup-attachments.com/t9003275564/f2564d31-c853-4dc0-b343-fddb8ad2c0b8/image.png)
+![image](https://t9003275564.p.clickup-attachments.com/t9003275564/f2564d31-c853-4dc0-b343-fddb8ad2c0b8/image.png)
 
 http port is open lets try open the browser :
 
