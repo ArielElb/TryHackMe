@@ -1,4 +1,4 @@
-[# Relevant room tryhackme:
+# Relevant room tryhackme:
 
 #   
 
