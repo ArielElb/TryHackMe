@@ -51,3 +51,8 @@ The output you provided is from the "sc qc" command, which is used to query the 
 In summary, the "daclsvc" service is a demand-start service that runs in its own process, and its executable is located at "C:\Program Files\DACL Service\daclservice.exe." It does not have any dependencies, belongs to no load order group, and is configured to start under the LocalSystem account.
 
 
+### generate a payload using msfvenom :
+
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/056d71fc-2fc2-4849-a750-c48811376669)
+
+
