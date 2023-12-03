@@ -10,7 +10,7 @@
 
 key thing we need to know : 
 
-- if we want for example to change the path in the config file to a malicous binary file we need to know that this file will run with the permissions of the service
+- if we want for example to change the path in the config file to a malicous binary file we need to know that this file will run with the permissions of the service so to actually get elevated priv we need higher priv
 
 ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/42b6680e-8369-482a-a8ae-78208700fd28)
 
