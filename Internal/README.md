@@ -1,4 +1,5 @@
--
+# notes  for internal hard ctf thm 
+
 ## recon : 
 ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/b3083cbd-95e2-4ab1-a1c3-d088cddb771f)
 
