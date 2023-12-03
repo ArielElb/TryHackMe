@@ -29,3 +29,20 @@
 in the attacker machine :
 ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/80eacedf-c6a9-410c-a2d4-80248e60c31a)
 ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/ce2a1793-8e04-459c-a553-115d77f8f4d8)
+
+
+## trying to loging to jenkinks service :
+
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/d136a034-b64a-4ef7-8b33-206b3bdcdd1f)
+
+- use burp suite to get the parameters ready for hydra :
+- 
+  ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/6c382504-6eac-4470-aa2c-603b73bd35e2)
+
+- using hydra to login :
+  ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/42c5e395-fc3e-4dd2-bd18-ab909fba4602)
+  ![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/a4ab5947-7945-4ba1-9bdf-b1d3e9516c89)
+
+  - we could use OWSAP ZAP tool to fuzz it and check respondes that has different size and those make this as relevent passwords to try and than try with diff usernames
+  - but admin is default user in jenkins so we tried it first
+
