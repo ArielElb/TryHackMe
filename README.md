@@ -6,19 +6,7 @@ Welcome to the TryHackMe CTFs Writeups repository! Here, you'll find detailed wa
 
 ## Table of Contents
 
-1. [Challenge Name 1](./challenge1.md)
-    - Description: Brief overview of the challenge.
-    - Difficulty: Easy/Medium/Hard.
-    - Tags: List of relevant tags (e.g., Web Exploitation, Enumeration, Privilege Escalation).
-    - Walkthrough: Step-by-step guide on solving the challenge.
-
-2. [Challenge Name 2](./challenge2.md)
-    - Description: Brief overview of the challenge.
-    - Difficulty: Easy/Medium/Hard.
-    - Tags: List of relevant tags (e.g., Network Security, Binary Exploitation, Forensics).
-    - Walkthrough: Step-by-step guide on solving the challenge.
-
-... (add more challenges as needed)
+=
 
 ## How to Use
 
