@@ -51,8 +51,14 @@ The output you provided is from the "sc qc" command, which is used to query the 
 In summary, the "daclsvc" service is a demand-start service that runs in its own process, and its executable is located at "C:\Program Files\DACL Service\daclservice.exe." It does not have any dependencies, belongs to no load order group, and is configured to start under the LocalSystem account.
 
 
-### generate a payload using msfvenom :
+- generate a payload using msfvenom :
 
 ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/056d71fc-2fc2-4849-a750-c48811376669)
+
+- Modify the service config and set the BINARY_PATH_NAME (binpath) to the reverse.exe executable you created:
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/5f22a840-7e62-4790-a819-a47eaff7164e)
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/8207074c-f95a-4b86-a315-8bb2938aa6bd)
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/714d361b-0107-402c-8ca6-76cdd340514a)
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/5698e04d-8c19-4ecc-8ad0-9415c2a93a04)
 
 
