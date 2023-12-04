@@ -225,7 +225,7 @@ The commands   are used to query the registry values of the AlwaysInstallElevate
    ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/f5fe416c-3ae9-40c6-aa01-6b314bd9ba53)
 
 
-3. run the command: msiexec /quiet /qn /i C:\PrivEsc\reverse.msi
+3. run the command: msiexec /quiet /qn /i C:\PrivEsc\reverse.msi to get the reverse shell
 ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/acc4a421-7080-4b63-bf14-4f98a94b3cc8)
 ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/6d7c1489-2504-486e-9a96-fe30d967d98d)
 
