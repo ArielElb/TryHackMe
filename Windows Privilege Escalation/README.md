@@ -231,5 +231,27 @@ The commands   are used to query the registry values of the AlwaysInstallElevate
 
 
 
+  ## Searching For Passwords In Windows Registry:
 
-   
+  1. lets begin with searching for passwords within the registry using the command :
+     - reg query HKLM /f password /t REG_SZ /s
+        ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/bd8ce217-4eca-4cc9-b0a0-0f7e6de23eb2)
+       we can note that its very inefficient and slow and got alot of useless information.
+
+   2. we can search for more spesifc information with the command:
+      - reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon"
+        ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/33e0aa15-b23a-4214-8b09-02714cd6ebcc)
+        explanation:
+        The command is used to query the registry subkey that contains information about the Windows logon process. The command will return the name, type, and data of all the values under the subkey HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon. Some of the values that can be found under this subkey are¹:
+
+- AutoAdminLogon: A string value that determines whether Windows automatically logs on a user account when the system starts. The default value is 0, which means disabled. If set to 1, Windows will use the credentials stored in the DefaultUserName, DefaultPassword, and DefaultDomainName values to log on the user.
+- DefaultUserName: A string value that specifies the user name for the automatic logon process. This value is only used if AutoAdminLogon is set to 1.
+- DefaultPassword: A string value that specifies the password for the automatic logon process. This value is only used if AutoAdminLogon is set to 1.
+- DefaultDomainName: A string value that specifies the domain name for the automatic logon process. This value is only used if AutoAdminLogon is set to 1.
+- Shell: A string value that specifies the program that runs as the user interface. The default value is explorer.exe, which runs the Windows Explorer shell. This value can be changed to run a different program as the shell, such as cmd.exe or powershell.exe.
+- Userinit: A string value that specifies the program that runs after a user logs on. The default value is userinit.exe, which initializes the user environment. This value can be changed to run a different program after the user logs on, such as a script or a malware.
+
+
+
+        
+
