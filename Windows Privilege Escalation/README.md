@@ -171,7 +171,7 @@ A brief explanation of service exploits - insecure service executables is:
       ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/9f27c830-8a3e-4416-a569-8b5fe51e4bee)
 
         
-  ##  Registry - AutoRuns
+  ##  Windows Privilege Escalation - Exploiting AutoRun Programs
 
    Autoruns are programs that automatically start when Windows boots up or when a user logs in. They are usually stored in the Run or RunOnce registry keys, which contain the path of the executable file for the program. Registry autoruns can be used for legitimate purposes, such as launching antivirus software or system utilities, but they can also be exploited by malware or attackers to gain persistence or privilege escalation on a system.
    
@@ -204,6 +204,30 @@ A brief explanation of service exploits - insecure service executables is:
 
    4.Start a listener on Kali and then restart the Windows VM. Open up a new RDP session to trigger a reverse shell running with admin privileges. You should not have to authenticate to trigger it, however if the payload does not fire, log in as an admin (admin/password123) to trigger it. Note that in a real world engagement, you would have to wait for an administrator to log in themselves!
      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/cf6b7748-916f-474d-a87c-7286110e271d)
+
+   ##  Windows Privilege Escalation - Exploiting AlwaysInstallElevated:
+
+  AlwaysInstallElevated exploit is a way to gain elevated privileges on a Windows system by abusing a policy that allows non-administrator users to install MSI packages with SYSTEM level permissions. This means that an attacker can create a malicious MSI package that executes arbitrary code and install it on the target system, resulting in privilege escalation. To exploit this vulnerability, the attacker needs to have write access to the registry keys that control the policy, or to the folder where the MSI package is located. There are various tools that can help to identify and exploit this vulnerability, such as Reg, Icacls, WinPEAS, Autorunsc, MSFvenom, and Netcat.
+
+  1. lets start by Query the registry for AlwaysInstallElevated keys:
+     - reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated:
+       
+       ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/b77a97b0-16cd-4673-a0de-94f0f0f0d077)
+
+     - reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated:
+        
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/cc88b558-6aa2-48ce-9699-edc905953926)
+
+The commands   are used to query the registry values of the AlwaysInstallElevated policy on the current user (HKCU) and local machine (HKLM) keys. This policy determines whether non-administrator users can install MSI packages with SYSTEM level permissions, which can be exploited for privilege escalation. If the commands return 1 for both keys, it means the policy is enabled and the system is vulnerable. If the commands return 0 or do not find the values, it means the policy is disabled or not configured and the system is not vulnerable.
+
+2. upload the reverse.msi to the windows machine after created using msfvenom and set a listener on kali:
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/32e7721b-df86-4f89-b6eb-8f8546e7b836)
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/f5fe416c-3ae9-40c6-aa01-6b314bd9ba53)
+
+
+3. run the command: msiexec /quiet /qn /i C:\PrivEsc\reverse.msi
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/acc4a421-7080-4b63-bf14-4f98a94b3cc8)
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/6d7c1489-2504-486e-9a96-fe30d967d98d)
 
 
 
