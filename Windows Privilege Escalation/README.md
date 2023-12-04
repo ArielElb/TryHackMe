@@ -94,3 +94,13 @@ By properly quoting paths with spaces, administrators can ensure that the system
   we can see that we have Read Write permitions in thr Unqueted Path Service directory because user is part of the USERS group.
   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/6fad0f41-4386-4018-b690-13f13adc3086)
 
+ - setting up the payload ( we already had one we created with msf venomd ):
+    ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/8125cc98-ebc6-4b31-b1f5-5e365630532b)
+
+   - set a listeer and start the service :
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/4281b481-dc25-4f54-a079-736fc34cc9ca)
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/9dd138f9-4764-41e6-adbd-7e622bb092cd)
+     as we can see we are nt authority !
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/070571d6-8966-4c9e-a373-b61eb9dd854e)
+
+
