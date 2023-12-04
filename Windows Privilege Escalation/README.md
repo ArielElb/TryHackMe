@@ -1,6 +1,9 @@
 
 # Windows Privilege Escalation
 
+write up for thm room :
+https://tryhackme.com/room/windows10privesc
+
 ## Exploiting Insecure Service Permissions
 1. using winpeas
 ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/3483372e-e751-4615-9df4-a006136dba46)
@@ -138,7 +141,7 @@ Deeper explanation :
 
 The command will overwrite the "ImagePath" registry entry for the "RegSVC" service with the path of the reverse.exe executable that you created. This means that the next time the service is started, it will run the reverse.exe executable instead of the original one. This can be used to gain a reverse shell or execute arbitrary code on the system.
 
-
+##  Service Exploits - Insecure Service Executables:
      
      
 
