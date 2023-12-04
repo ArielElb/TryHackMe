@@ -65,3 +65,32 @@ In summary, the "daclsvc" service is a demand-start service that runs in its own
 ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/5698e04d-8c19-4ecc-8ad0-9415c2a93a04)
 
 
+##  Service Exploits - Unquoted Service Path 
+
+"Unquoted service path" is a common security vulnerability that occurs when a service executable's path contains spaces but is not enclosed in double quotation marks. This can potentially lead to privilege escalation or other security issues.
+
+Windows uses a specific search algorithm to locate the executable associated with a service when it starts. This search algorithm involves looking for the executable file in different directories, and it starts from the root of the drive.
+
+When a service is started, Windows follows a predefined path resolution strategy to find the executable file. The system typically searches in the following order:
+
+1. **The directory specified in the service configuration:** This is the path provided when configuring the service. If the path contains spaces and is not enclosed in double quotation marks, it can lead to misinterpretation.
+
+2. **The current working directory:** The directory from which the service was started.
+
+3. **The Windows system directories:** These are directories like `C:\Windows\System32` where system files are located.
+
+4. **The directories listed in the system's PATH environment variable:** The PATH variable contains a list of directories where the operating system searches for executable files.
+
+When a service is configured with an unquoted service path, and the path contains spaces without proper quoting, Windows may misinterpret the path during the search. This can result in unexpected behavior, such as attempting to execute a file with part of the path misunderstood.
+
+By properly quoting paths with spaces, administrators can ensure that the system correctly interprets the full path to the service executable, preventing potential security vulnerabilities associated with the "unquoted service path" issue.
+
+- scanning with linpeas again and as you can see there are services that are unquoted : 
+  ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/92198fe3-0886-4deb-a407-550165c74506)
+
+- or using Windows Service Control to query :
+  ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/c23f1d25-eb7b-49c7-a3a2-ee9af59d2992)
+
+  we can see that we have Read Write permitions in thr Unqueted Path Service directory because user is part of the USERS group.
+  ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/6fad0f41-4386-4018-b690-13f13adc3086)
+
