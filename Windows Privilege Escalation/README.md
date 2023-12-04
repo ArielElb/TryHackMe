@@ -85,13 +85,13 @@ When a service is configured with an unquoted service path, and the path contain
 
 By properly quoting paths with spaces, administrators can ensure that the system correctly interprets the full path to the service executable, preventing potential security vulnerabilities associated with the "unquoted service path" issue.
 
-- scanning with linpeas again and as you can see there are services that are unquoted : 
+- scanning with winpeas again and as you can see there are services that are unquoted : 
   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/92198fe3-0886-4deb-a407-550165c74506)
 
 - or using Windows Service Control to query :
   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/c23f1d25-eb7b-49c7-a3a2-ee9af59d2992)
 
-  we can see that we have Read Write permitions in thr Unqueted Path Service directory because user is part of the USERS group.
+  we can see that we have Read Write permitions in thr Unqueted Path Service directory because user is part of   the USERS group.
   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/6fad0f41-4386-4018-b690-13f13adc3086)
 
  - setting up the payload ( we already had one we created with msf venomd ):
@@ -100,7 +100,45 @@ By properly quoting paths with spaces, administrators can ensure that the system
    - set a listeer and start the service :
      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/4281b481-dc25-4f54-a079-736fc34cc9ca)
      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/9dd138f9-4764-41e6-adbd-7e622bb092cd)
-     as we can see we are nt authority !
+     as we can see we are nt authority!
+     
      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/070571d6-8966-4c9e-a373-b61eb9dd854e)
 
+##  Service Exploits - Weak Registry Permissions:
+   - we can see in winpeas there is a service registry we can edit and change the path of from the real             services to a malicious such as reverse shell, if this service have higher privileges we can escalte them.
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/27591201-7651-40b4-b0e6-55ac62efc933)
+   - or with the command - sc qc regsvc :
+     Query the "regsvc" service and note that it runs with SYSTEM privileges (SERVICE_START_NAME).
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/964d901c-9c0e-43d5-a9e2-2a78a15955fb)
 
+   - Using accesschk.exe, note that the registry entry for the regsvc service is writable by the "NT                AUTHORITY\INTERACTIVE" group (essentially all logged-on users):
+  
+     C:\PrivEsc\accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc :
+     The service start name is “LocalSystem”, meaning the service runs under the Local System account, which        has full access to the system.
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/bb812a27-1403-4d63-9df6-e3788bf98232)
+
+   - Overwrite the ImagePath registry key to point to the reverse.exe executable you created:
+     using the command :
+     reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d             
+     C:\PrivEsc\reverse.exe /f
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/d9fb224a-8639-4079-bcfb-89bb4e351156)
+
+Deeper explanation :
+
+- `reg add` is a command that adds a new subkey or entry to the registry.
+- `HKLM\SYSTEM\CurrentControlSet\services\regsvc` is the path of the subkey that holds the registry item that you want to change. In this case, it is the subkey for the service named "RegSVC".
+- `/v ImagePath` is the parameter that specifies the name of the registry entry that you want to add or change. In this case, it is the "ImagePath" entry, which contains the path of the executable file for the service.
+- `/t REG_EXPAND_SZ` is the parameter that specifies the type of the registry entry that you want to add or change. In this case, it is the "REG_EXPAND_SZ" type, which is a null-terminated string that contains unexpanded references to environment variables (for example, "%PATH%").
+- `/d C:\PrivEsc\reverse.exe` is the parameter that specifies the data for the registry entry that you want to add or change. In this case, it is the path of the reverse.exe executable that you created.
+- `/f` is the parameter that forces the command to overwrite the existing registry entry without prompting for confirmation.
+
+The command will overwrite the "ImagePath" registry entry for the "RegSVC" service with the path of the reverse.exe executable that you created. This means that the next time the service is started, it will run the reverse.exe executable instead of the original one. This can be used to gain a reverse shell or execute arbitrary code on the system.
+
+
+     
+     
+
+
+   
+
+   
