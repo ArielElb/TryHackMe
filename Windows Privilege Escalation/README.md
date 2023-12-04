@@ -171,10 +171,28 @@ A brief explanation of service exploits - insecure service executables is:
       ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/9f27c830-8a3e-4416-a569-8b5fe51e4bee)
 
         
+  ##  Registry - AutoRuns
 
+   Autoruns are programs that automatically start when Windows boots up or when a user logs in. They are usually stored in the Run or RunOnce registry keys, which contain the path of the executable file for the program. Registry autoruns can be used for legitimate purposes, such as launching antivirus software or system utilities, but they can also be exploited by malware or attackers to gain persistence or privilege escalation on a system.
    
+   There are two main ways to exploit registry autoruns:
+   
+   - If an attacker can write to the registry key that controls the autorun program, they can change the path of the executable file to point to a malicious one. This way, the malicious program will run instead of the original one when Windows starts or when a user logs in. This can be used to execute arbitrary code, create a backdoor, or steal information from the system.
+   - If an attacker can overwrite the executable file of the autorun program with a malicious one, they can achieve the same effect as the previous method. This requires the attacker to have write access to the folder where the executable file is located, which may be protected by the system or the owner of the file.
+   
+   To identify and exploit registry autoruns, an attacker can use various tools, such as:
+   
+   - Reg, a command-line tool that can query, add, or modify registry keys and values¹.
+   - Icacls or Accesschk, command-line tools that can display or modify the permissions of files and folders.
+   - WinPEAS, a script that can enumerate various information about the system, including registry autoruns and their permissions⁴.
+   - Autorunsc, a tool from Sysinternals that can list all the autorun programs on the system and their locations.
+   - MSFvenom, a tool that can generate malicious executable files for various payloads, such as reverse shells or code injectors.
+   - Netcat, a tool that can create network connections and listen for incoming connections, which can be used to catch reverse shells from the exploited system.
 
 
+
+
+  
    
 
    
