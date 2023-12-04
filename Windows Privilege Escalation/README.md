@@ -123,6 +123,10 @@ By properly quoting paths with spaces, administrators can ensure that the system
      C:\PrivEsc\reverse.exe /f
      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/d9fb224a-8639-4079-bcfb-89bb4e351156)
 
+   - we can also edit it from the regisry editor :
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/f103e28d-2e40-4a93-9d66-9608d6d17ce4)
+
+
 Deeper explanation :
 
 - `reg add` is a command that adds a new subkey or entry to the registry.
