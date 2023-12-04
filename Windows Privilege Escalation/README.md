@@ -19,7 +19,7 @@ key thing we need to know :
 
 ### breakdown :
 
-The output you provided is from the "sc qc" command, which is used to query the configuration information for a specific Windows service. In this case, the service you are querying is named "daclsvc." Let's break down the information:
+The output of "sc qc" command, which is used to query the configuration information for a specific Windows service. In this case, the service you are querying is named "daclsvc." Let's break down the information:
 
 1. **SERVICE_NAME: daclsvc**
    - This is the name of the service.
@@ -142,8 +142,38 @@ Deeper explanation :
 The command will overwrite the "ImagePath" registry entry for the "RegSVC" service with the path of the reverse.exe executable that you created. This means that the next time the service is started, it will run the reverse.exe executable instead of the original one. This can be used to gain a reverse shell or execute arbitrary code on the system.
 
 ##  Service Exploits - Insecure Service Executables:
+
+A brief explanation of service exploits - insecure service executables is:
+- Service exploits are a type of privilege escalation technique that targets Windows services, which are programs that run in the background and perform various tasks for the system or applications.
+- Insecure service executables are services that use executable files with weak permissions, meaning that they can be modified or overwritten by unprivileged users.
+- An attacker can exploit this vulnerability by replacing the original executable file with a malicious one, such as a reverse shell or a code injector, and then restarting the service. This will execute the malicious code with the same privileges as the service, which could be SYSTEM, the highest level of access on Windows.
+- To identify insecure service executables, one can use tools such as sc, accesschk, or winPEAS to list the services and their permissions, and then look for services that have write access for low-privileged users or groups, such as Everyone, Users, or Authenticated Users.
+- To exploit insecure service executables, one can use tools such as msfvenom, nc, or powershell to generate a malicious executable file, and then copy it to the location of the original executable file, overwriting it. Then, one can use tools such as sc, net, or psexec to restart the service and trigger the exploit. This will result in a reverse shell or code execution on the target system.
+
      
-     
+   1. scan for insecure service executables with winPEAS :
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/6ee60f09-82f5-45c6-ba60-f02a3c59085d)
+   2. verify using the command sc qc filepermsvc
+       ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/23fef0e2-7584-4ce4-8f78-7c34df5521f3)
+      we can see that service running an executable with LocalSytem privileges.
+      and that the file permmisions is everyone , we can also see this using the next command :
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/2f592683-5a13-433a-bc2b-d3e0ff44750f)
+
+  
+   4. lets exploit it by editing the path to be a binary of reverse shell to our attack machine that will have       local system permissions:
+      - set up a listener using metasploit :
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/6e6f9765-b2cb-444c-bce8-131b60f4e825)
+
+      - set the new path to the reverse shell :
+        ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/2b6b2fe9-8c41-4213-9ada-139b3089506d)
+      - start the service and active the reverse shell :
+        ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/53097269-dcd3-42a5-bad5-913ec3ec5d2f)
+        ![Uploading image.png…]()
+
+        
+        
+
+   
 
 
    
