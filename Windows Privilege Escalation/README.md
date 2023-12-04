@@ -175,7 +175,7 @@ A brief explanation of service exploits - insecure service executables is:
 
    Autoruns are programs that automatically start when Windows boots up or when a user logs in. They are usually stored in the Run or RunOnce registry keys, which contain the path of the executable file for the program. Registry autoruns can be used for legitimate purposes, such as launching antivirus software or system utilities, but they can also be exploited by malware or attackers to gain persistence or privilege escalation on a system.
    
-   There are two main ways to exploit registry autoruns:
+   There are two main ways to exploit autoruns:
    
    - If an attacker can write to the registry key that controls the autorun program, they can change the path of the executable file to point to a malicious one. This way, the malicious program will run instead of the original one when Windows starts or when a user logs in. This can be used to execute arbitrary code, create a backdoor, or steal information from the system.
    - If an attacker can overwrite the executable file of the autorun program with a malicious one, they can achieve the same effect as the previous method. This requires the attacker to have write access to the folder where the executable file is located, which may be protected by the system or the owner of the file.
@@ -189,10 +189,23 @@ A brief explanation of service exploits - insecure service executables is:
    - MSFvenom, a tool that can generate malicious executable files for various payloads, such as reverse shells or code injectors.
    - Netcat, a tool that can create network connections and listen for incoming connections, which can be used to catch reverse shells from the exploited system.
 
+   1. Lets search for vulnerable registry entries that we can change  (the path need to modifiable) using winPEAS :
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/ee3f20aa-4f18-4628-953d-d82de38891f0)
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/c7f92369-74c2-4773-bcf8-61a6888c71d7)
 
+  or with using the command :
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/b5f2f1cd-16f3-4a98-a459-50e483bd3520)
 
-
-  
+   2. Using accesschk.exe, note that one of the AutoRun executables is writable by everyone:
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/2f430271-1d40-4e2f-b849-7aacf232cf95)
    
+   3. Copy the reverse.exe executable you created and overwrite the AutoRun executable with it:
+    ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/fd0f0840-3985-4ab3-8b2a-31d05e86d0d5)
+
+   4.Start a listener on Kali and then restart the Windows VM. Open up a new RDP session to trigger a reverse shell running with admin privileges. You should not have to authenticate to trigger it, however if the payload does not fire, log in as an admin (admin/password123) to trigger it. Note that in a real world engagement, you would have to wait for an administrator to log in themselves!
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/cf6b7748-916f-474d-a87c-7286110e271d)
+
+
+
 
    
