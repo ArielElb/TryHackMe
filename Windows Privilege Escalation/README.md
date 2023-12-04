@@ -167,9 +167,10 @@ A brief explanation of service exploits - insecure service executables is:
       - set the new path to the reverse shell :
         ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/2b6b2fe9-8c41-4213-9ada-139b3089506d)
       - start the service and active the reverse shell :
+        ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/df53a312-c8e8-4b4e-8503-a418c07dc02a)
         ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/53097269-dcd3-42a5-bad5-913ec3ec5d2f)
-        ![Uploading image.png…]()
 
+        
         
         
 
