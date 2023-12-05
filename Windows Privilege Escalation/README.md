@@ -344,9 +344,15 @@ But it is more likely that we will extract the hashes from the memory in the pos
    we getting NT AUTHORITY account after running the psexec.py script because the script uses the RemComSvc service to execute the command on the target host. RemComSvc is a lightweight service that runs the command as the SYSTEM account, which is a built-in account that has high privileges and permissions on the local system. The SYSTEM account is also known as NT AUTHORITY\SYSTEM, which is why you see this account name when you run the script. The script uploads the RemComSvc binary to the ADMIN$ share, creates and starts a service named RemComService, runs the command, and then stops and removes the service and the binary.
    
    the service is dsmk, but that is the name of the service that the script creates on the target host using the Service Manager. The script then uses this service to run the uploaded file FwfYkPIg.exe, which is the binary wrapper based on the PAExec library. The PAExec library then uses another service named RemComService, which is the actual service that runs the command as the SYSTEM account. The script does not show the name of the RemComService in the output, but you can see it in the source code of the PAExec library.
-   
-       
-  
+
+
+## Windows Privilege Escalation - Exploiting Insecure GUI App:
+
+1. we got an mspaint gui that run with admin permissions :
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/5b80e902-5691-47bb-838c-d3c166239ada)
+
+2.open a cmd in the mspaint and we can see we are admin:
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/1c3605dd-75d5-4839-9977-33c11ea2e5a3)
 
 
         
