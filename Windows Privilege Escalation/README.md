@@ -420,10 +420,16 @@ Token impersonation can be prevented by applying the principle of least privileg
 
 Now, in the "local service" reverse shell you triggered, run the RoguePotato exploit to trigger a second reverse shell running with SYSTEM privileges (update the IP address with your Kali IP accordingly): "
 
+- using rougepotato on the local service shell:
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/0fed4f15-cb80-47ca-a8cc-b19487bb1908)
+- gaining the reverse shell in the second listner that will have escalated priviliges :
 ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/0d144bc4-6d19-4c8c-b816-341f823a7065)
 
 
-![image](https://github.com/ArielElb/TryHackMe/assets/94087682/0fed4f15-cb80-47ca-a8cc-b19487bb1908)
+for deeper understaning of rougepotato you can look here:
+https://decoder.cloud/2020/05/11/no-more-juicypotato-old-story-welcome-roguepotato/
+
+
 
 
 
