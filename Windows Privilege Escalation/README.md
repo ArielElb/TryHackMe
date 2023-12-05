@@ -311,9 +311,39 @@ But it is more likely that we will extract the hashes from the memory in the pos
     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/56573a9a-54a8-4925-8ad9-f35ed3669a13)
 
 
+## Passing the hash / pass the password:
+   1.pass the password using psexec :
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/e15f03d8-fed9-4a61-a867-37a6a9596248)
 
+   2. pass the hash -
+      To pass the hash using psexec.py, you need to have the following information:
 
+- The target IP address or hostname
+- The username of the account you want to impersonate
+- The NTLM hash of the account's password
 
+`psexec.py  admin@10.10.221.198 -hashes aad3b435b51404eeaad3b435b51404ee:a9fdfa038c4b75ebc76dc855dd74f0da`
+
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/765e51b6-76ba-4edc-8b73-eb2d4b8030db)
+
+   - explanation: 
+
+   The psexec.py script, which is a Python implementation of the PsExec tool. PsExec is a tool that allows remote code execution on Windows hosts using SMB and RPC protocols. The output shows the following steps:
+
+- The script requests the shares on the target host 10.10.221.198 using SMB.
+- The script finds a writable share named ADMIN$, which is the default administrative share for the system root.
+- The script uploads a file named FwfYkPIg.exe to the ADMIN$ share. This file is a binary wrapper based on the PAExec library, which is an open source equivalent to PsExec.
+- The script opens the Service Manager on the target host using RPC and creates a service named dsmk that runs the uploaded file as the SYSTEM account.
+- The script starts the service dsmk, which creates a named pipe and waits for commands from the script.
+- The script sends the process details to the service, such as the command to execute, the user credentials, the priority, the timeout, etc.
+- The script sends a request to the service to start the process based on the settings sent.
+- The script connects to the stdout, stderr, and stdin pipes of the new process and reads the output until the process is complete.
+- The script gets the return code of the new process and stops and removes the service dsmk.
+- The script removes the file FwfYkPIg.exe from the ADMIN$ share and disconnects from the SMB connection.
+
+we getting NT AUTHORITY account after running the psexec.py script because the script uses the RemComSvc service to execute the command on the target host. RemComSvc is a lightweight service that runs the command as the SYSTEM account, which is a built-in account that has high privileges and permissions on the local system. The SYSTEM account is also known as NT AUTHORITY\SYSTEM, which is why you see this account name when you run the script. The script uploads the RemComSvc binary to the ADMIN$ share, creates and starts a service named RemComService, runs the command, and then stops and removes the service and the binary.
+
+the service is dsmk, but that is the name of the service that the script creates on the target host using the Service Manager. The script then uses this service to run the uploaded file FwfYkPIg.exe, which is the binary wrapper based on the PAExec library. The PAExec library then uses another service named RemComService, which is the actual service that runs the command as the SYSTEM account. The script does not show the name of the RemComService in the output, but you can see it in the source code of the PAExec library. The script also does not show the name of the RemComService in the output, but you can see it in the source code of the PAExec library. The script also does not show the name of the RemComService in the output, but you can see it in the source code of the PAExec library.
    
 
     
