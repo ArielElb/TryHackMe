@@ -241,8 +241,8 @@ The commands   are used to query the registry values of the AlwaysInstallElevate
    2. we can search for more spesifc information with the command:
       - reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon"
         ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/33e0aa15-b23a-4214-8b09-02714cd6ebcc)
-        explanation:
-        The command is used to query the registry subkey that contains information about the Windows logon process. The command will return the name, type, and data of all the values under the subkey HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon. Some of the values that can be found under this subkey are¹:
+explanation:
+The command is used to query the registry subkey that contains information about the Windows logon process. The command will return the name, type, and data of all the values under the subkey HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon. Some of the values that can be found under this subkey are¹:
 
 - AutoAdminLogon: A string value that determines whether Windows automatically logs on a user account when the system starts. The default value is 0, which means disabled. If set to 1, Windows will use the credentials stored in the DefaultUserName, DefaultPassword, and DefaultDomainName values to log on the user.
 - DefaultUserName: A string value that specifies the user name for the automatic logon process. This value is only used if AutoAdminLogon is set to 1.
@@ -251,6 +251,73 @@ The commands   are used to query the registry values of the AlwaysInstallElevate
 - Shell: A string value that specifies the program that runs as the user interface. The default value is explorer.exe, which runs the Windows Explorer shell. This value can be changed to run a different program as the shell, such as cmd.exe or powershell.exe.
 - Userinit: A string value that specifies the program that runs after a user logs on. The default value is userinit.exe, which initializes the user environment. This value can be changed to run a different program after the user logs on, such as a script or a malware.
 
+   3. lets use winPEAS to see the information more clearly and search for more information:
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/4cec0649-21b2-43cb-b54f-ce488fc4e6e4)
+      we can also decode the base64:
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/4fa0bf7b-206a-4f80-a026-1e06a2c510a8)
+
+   4. connecting using psexec :
+      ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/077414d6-e132-48e2-ad39-fbb2e80c8f56)
+
+##  Windows Privilege Escalation - Using Stored Credentials:
+
+   1. we gonna use cmdkey windows tool , but what is cmdkey ?
+      Windows cmdkey is a command-line tool that creates, lists, and deletes stored user names and passwords or credentials. These credentials can be used to access remote servers, network resources, or web sites that require authentication. Windows cmdkey can also retrieve credentials from a smart card if one is available on the system.
+
+Some of the benefits of using Windows cmdkey are:
+
+- It can help you manage multiple credentials for different targets without having to enter them every time.
+- It can improve the security of your credentials by storing them in an encrypted form and preventing unauthorized access.
+- It can automate the logon process for remote servers or network resources by using the /add or /generic parameters.
+- It can delete unwanted or outdated credentials by using the /delete parameter.
+
+Some of the limitations of using Windows cmdkey are:
+
+- It can only store user names and passwords, not other types of credentials such as certificates or tokens.
+- It can only store credentials for the current user, not for other users or groups.
+- It can only store credentials for the local machine, not for other machines or domains.
+- It can only store credentials for the current session, not for future sessions.
+
+   1. lets list any saved credentials using cmdkey tool:
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/3a04ff0b-eb13-4b50-807b-ff7fa78e980e)       2. or using the credential manger
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/12c64367-43bc-4642-8f2b-604c2c2c67dc)
+
+  - we can see that there are some admin acoount with higher priviliges that is part of the local windows administrators group.
+  - we can use this saved credentials to run .exe with the admin permissions:
+    
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/a8183b64-965d-408c-897b-8ab7e0c99828)
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/0b8ef6d1-89c4-4cfd-bf48-86afbea7f90f)
+
+
+  ##  Passwords - Security Account Manager (SAM) :
+   - " The SAM and SYSTEM files can be used to extract user password hashes. This VM has insecurely stored backups of the SAM and SYSTEM files in the C:\Windows\Repair\ directory. "
+  - Note: We need to understand that it is definitely an unlikely scenario to keep a copy of the *SAM* or *SYSTEM* entirely elsewhere.
+But it is more likely that we will extract the hashes from the memory in the post exploitation part when you got an nt authority or other elvated user permissions, that is, from the cache of the lsass process using mimikatz!
+
+1. but we will still go over it lets start from transfering the SAM and SYSTAM files to our attacker machince :
+  ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/68edcfbc-2d94-47ad-9bfc-8d917be2ee17)
+2. lets dump the hashes using the reddump7 repository :
+
+   - here i actually had a bug because i used python 3.11 and pycrypto doesnt support it so u can see 
+      that we can actually do it in the next write up :
+         https://0xaniket.medium.com/tryhackme-windows-privesc-walkthrough-e5e323d2282
+
+   - or i will show another method using mimikatz after uploading the mimikatz.exe from /usr/share/windows-resources/mimikatz/x64" :
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/ba9d142e-9913-4c07-b5f3-619ba109f6e3)
+     ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/d1871eec-6305-4364-a5cd-65402d096bce)
+
+
+3. Crack the admin NTLM hash using hashcat:
+    ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/56573a9a-54a8-4925-8ad9-f35ed3669a13)
+
+
+
+
+
+   
+
+    
+  
 
 
         
