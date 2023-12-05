@@ -1,4 +1,3 @@
-
 # Windows Privilege Escalation
 
 write up for thm room :
