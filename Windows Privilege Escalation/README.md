@@ -354,6 +354,79 @@ But it is more likely that we will extract the hashes from the memory in the pos
 2.open a cmd in the mspaint and we can see we are admin:
    ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/1c3605dd-75d5-4839-9977-33c11ea2e5a3)
 
+## Windows Privilege Escalation - Startup Apps
+
+1. Using accesschk.exe, note that the BUILTIN\Users group can write files to the StartUp directory:
+   - C:\PrivEsc\accesschk.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+   - note that the BUILTIN\USERS has RW permissions:
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/5ea526bf-a115-486a-aaec-76072eb92eed)
+
+2. launch the visual basic script based on where we stored our reverse.exe payload:
+   - Using cscript, run the C:\PrivEsc\CreateShortcut.vbs script which  should create a new shortcut to your reverse.exe executable in the StartUp directory:
+   - cscript C:\PrivEsc\CreateShortcut.vbs
+3. start an rdp session and login with the admin password to simulate an admin logon session:
+   ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/0421cf9d-0192-4268-8025-9d43e129969b)
+
+
+## Windows Privilege Escalation - Token Impersonation With RoguePotato & PrintSpoofer:
+
+###This is a brief explanation of Windows Privilege Escalation - Token Impersonation With RoguePotato & PrintSpoofer:
+
+Token impersonation is a technique that allows a user to execute commands or access resources as another user by using their security token, which is an object that contains their identity and permissions. Token impersonation can be used for legitimate purposes, such as when a service needs to verify the user's credentials or perform an operation on behalf of the user. However, token impersonation can also be abused by attackers to escalate privileges or move laterally within a network.
+
+To perform token impersonation, an attacker needs to have access to a valid token of another user, and also have the privileges to impersonate or assign that token to another process. There are several ways that an attacker can obtain a token, such as:
+
+- Dumping the memory of a process that has a token of another user, such as lsass.exe, and extracting the token using tools like Mimikatz or ProcDump.
+- Capturing the network traffic that contains the authentication data of another user, such as NTLM or Kerberos, and using tools like Responder or ntlmrelayx to relay or crack the data and get the token.
+- Exploiting a vulnerability in a service that has a token of another user, such as the Print Spooler service or the BITS service, and using tools like PrintSpoofer or JuicyPotato or RougePotato to trigger the vulnerability and get the token.
+
+Once the attacker has the token, they can use tools like Incognito or Invoke-TokenManipulation to impersonate the token and run commands as the user. Alternatively, they can use tools like PsExec or PAExec to create a new process with the token and run commands as the user. The attacker can also use tools like Rubeus or Kekeo to perform Kerberos attacks, such as ticket forging or golden ticket, using the token.
+
+Token impersonation can be detected by monitoring the processes and services that run on the system, and looking for any abnormal or suspicious behavior, such as:
+
+- Processes that have a different user name than the parent process, or that have a user name that does not match the expected user for that process.
+- Services that are created or modified by an unauthorized user, or that have a user name that does not match the expected user for that service.
+- Processes or services that have a high number of token handles, or that have token handles that belong to other users.
+- Processes or services that have the SeImpersonate or SeAssignPrimaryToken privileges enabled, which are not required for their normal operation.
+- Processes or services that generate security events related to token impersonation, such as event ID 4624 (logon), event ID 4672 (special privileges assigned), or event ID 4673 (sensitive privilege use).
+
+Token impersonation can be prevented by applying the principle of least privilege, and ensuring that only the necessary users and groups have the privileges to impersonate or assign tokens. Additionally, the following best practices can help mitigate the risk of token impersonation:
+
+- Enable Credential Guard to protect the credentials in memory from being dumped or stolen.
+- Disable or restrict NTLM authentication and use Kerberos instead, as NTLM is more vulnerable to relay and cracking attacks.
+- Patch the system regularly and apply the latest security updates to fix any known vulnerabilities that can be exploited for token impersonation.
+- Enable auditing and logging of security events related to token impersonation, and review them regularly for any anomalies or indicators of compromise.
+
+- RoguePotato is a tool that exploits a vulnerability in the way Windows handles access tokens, specifically the SeImpersonate and SeAssignPrimaryToken privileges, which allow a user to impersonate and assign tokens to other processes. RoguePotato tricks the SYSTEM account into authenticating to a fake server controlled by the attacker, and then relays the authentication to a local service that creates a token for the SYSTEM account. The attacker can then use this token to run commands as SYSTEM.
+  
+- PrintSpoofer is another tool that exploits the same vulnerability, but targets the Print Spooler service, which is a service that manages printing jobs on Windows. PrintSpoofer abuses the fact that the Print Spooler service can create processes as SYSTEM, and uses the SeImpersonate privilege to impersonate the token of the Print Spooler service and run commands as SYSTEM.
+- Both tools can be used to elevate privileges from a local administrator to SYSTEM, or from a low-privileged user to SYSTEM if the user has the SeImpersonate or SeAssignPrimaryToken privileges enabled. These privileges are often enabled for service accounts or users who are part of certain groups, such as Backup Operators or IIS Users.
+
+
+   
+1.  " Set up a socat redirector on Kali, forwarding Kali port 135 to port 9999 on Windows: "
+   - what ever traffic comes from the target system on port 135 i want you to redirect it to the target system on port 9999:
+     
+2.
+
+- set up a listener :![image](https://github.com/ArielElb/TryHackMe/assets/94087682/97d64938-b4b4-49d6-b890-d30ccf2c05b8)
+
+- "Start a listener on Kali. Simulate getting a service account shell by logging into RDP as the admin user, starting an elevated command prompt (right-click -> run as administrator) and using PSExec64.exe to trigger the reverse.exe executable you created with the permissions of the "local service" account: "
+
+  ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/511efc9b-1fd1-4b04-9489-6232faeacd14)
+  ![image](https://github.com/ArielElb/TryHackMe/assets/94087682/1907f72d-dfe5-4b6c-aeb6-0fa8da045dac)
+
+3. " Start another listener on Kali.
+
+Now, in the "local service" reverse shell you triggered, run the RoguePotato exploit to trigger a second reverse shell running with SYSTEM privileges (update the IP address with your Kali IP accordingly): "
+
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/0d144bc4-6d19-4c8c-b816-341f823a7065)
+
+
+![image](https://github.com/ArielElb/TryHackMe/assets/94087682/0fed4f15-cb80-47ca-a8cc-b19487bb1908)
+
+
+
 
         
 
